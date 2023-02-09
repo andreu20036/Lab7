@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class Main
@@ -7,8 +6,6 @@ public class Main
     static ArrayList<Student> madeListOfStudents()
     {
         return new ArrayList<>(List.of(
-                new Student(1035, "Albert", "Liz", "Stark", "2001-05-23",
-                        " ", " ", "Engineering", 2, "w2200"),
                 new Student(1035, "Albert", "Liz", "Stark", "2001-05-23",
                         " ", " ", "Engineering", 2, "w2200"),
                 new Student(1281, "Wilson", "Laura", "Phillips", "2001-06-30",
@@ -54,15 +51,6 @@ public class Main
         }
         return listOfStudents;
     }
-    static public Student addNewStudent()
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Введіть id, Прізвище, Ім’я, По батькові, Дата народження, " +
-                            "Адреса, Телефон, Факультет, Курс, Группу студента");
-        return new Student(scanner.nextInt(), scanner.next(), scanner.next(),
-                scanner.next(), scanner.next()," ", " ", scanner.next(),
-                scanner.nextInt(), scanner.next());
-    }
     static ArrayList<Student> listOfStudentsWithSameFaculty(String faculty, ArrayList<Student> listOfStudents)
     {
         ArrayList<Student> listOfStudentsWithSameFaculty = new ArrayList<>();
@@ -85,34 +73,54 @@ public class Main
         }
         return listOfStudentsWhoBornAfterYear;
     }
-    static ArrayList<Student> listOfStudentsWithSameGroup(String group, ArrayList<Student> listOfStudents)
-    {
-        ArrayList<Student> listOfStudentsWithSameGroup = new ArrayList<>();
-        Iterator<Student> iter = listOfStudentsWithSameGroup.iterator();
-        while(iter.hasNext())
-        {
-            Student temp = iter.next();
-            if(temp.getGroup() == group) listOfStudentsWithSameGroup.add(temp);
-        }
-        return listOfStudentsWithSameGroup;
-    }
     static void showListOfStudents(ArrayList<Student> listOfStudents)
     {
+        System.out.println();
         for (Iterator<Student> iterator = listOfStudents.iterator(); iterator.hasNext(); )
         {
             Student student =  iterator.next();
             System.out.println(student.toString());
         }
     }
-    public static void main(String[] args)
+    static public Student addNewStudent()
     {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Введіть id, Прізвище, Ім’я, По батькові, Дата народження, " +
+                "Адреса, Телефон, Факультет, Курс, Группу студента");
+        return new Student(scanner.nextInt(), scanner.next(), scanner.next(),
+                scanner.next(), scanner.next()," ", " ", scanner.next(),
+                scanner.nextInt(), scanner.next());
+    }
+    public static void main(String[] args)
+    {
         ArrayList<Student> students = madeListOfStudents();
-        System.out.println("Введіть факультет: ");
-        showListOfStudents(listOfStudentsWithSameFaculty(scanner.nextLine(), students));
-        System.out.println("Введіть рік: ");
-        showListOfStudents(listOfStudentsWhoBornAfterYear(scanner.nextInt(), students));
+        //Scanner scanner = new Scanner(System.in);
+        //System.out.println("Введіть факультет: ");
+        //ArrayList<Student> studentsWithSameFaculty = listOfStudentsWithSameFaculty("Engineering"/*scanner.nextLine()*/, students);
+        //showListOfStudents(studentsWithSameFaculty);
+        //System.out.println("Введіть рік: ");
+        //showListOfStudents(listOfStudentsWhoBornAfterYear(2001/*scanner.nextInt()*/, students));
 
-        students.add(addNewStudent());
+        students.sort(null);
+        showListOfStudents(students);
+        students.sort(Comparator.comparing(Student::getFaculty).thenComparing(Student::getBirthday));
+        showListOfStudents(students);
+        Set<String> faculties = new HashSet<>();
+        for (Student student: students) faculties.add(student.getFaculty());
+        System.out.println("\n" + faculties);
+        Map<String, Integer> map = new HashMap<>();
+        for (Student student : students)
+        {
+            String faculty = student.getFaculty();
+            Integer count = map.get(faculty);
+            if(count == null) map.put(faculty, 1);
+            else map.put(faculty, ++count);
+        }
+        for (Map.Entry<String, Integer> entry : map.entrySet())
+        {
+            System.out.println(entry);
+        }
+
+        //students.add(addNewStudent());
     }
 }

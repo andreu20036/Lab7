@@ -1,7 +1,8 @@
 import java.io.*;
 import java.time.*;
+import java.util.Objects;
 
-public class Student
+public class Student implements Comparable<Student>
 {
     private int id;
     private String surname;
@@ -97,10 +98,12 @@ public class Student
         if(group.length() > 4) this.group = group;
     }
 
+    @Override
     public String toString()
     {
         return  id + " " + surname + " " + name + " " + fatherName + " " + birthday + " " + address + " "
                 + phoneNumber + " " + faculty + " " + course + " " + group;
+
     }
     public void saveInFile(File file)
     {
@@ -124,7 +127,19 @@ public class Student
             System.out.print("Error");
         }
     }
-
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && course == student.course && Objects.equals(surname, student.surname) && Objects.equals(name, student.name) && Objects.equals(fatherName, student.fatherName) && Objects.equals(birthday, student.birthday) && Objects.equals(address, student.address) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(faculty, student.faculty) && Objects.equals(group, student.group);
+    }
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id, surname, name, fatherName, birthday, address, phoneNumber, faculty, course, group);
+    }
     Student()
     {
         this.id = 0;
@@ -151,5 +166,12 @@ public class Student
         this.faculty = faculty;
         this.course = course;
         this.group = group;
+    }
+    @Override
+    public int compareTo(Student o)
+    {
+        int result = surname.compareTo(o.surname);
+        if(result == 0) return name.compareTo(o.name);
+        return result;
     }
 }
