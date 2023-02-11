@@ -51,29 +51,7 @@ public class Main
         }
         return listOfStudents;
     }
-    static ArrayList<Student> listOfStudentsWithSameFaculty(String faculty, ArrayList<Student> listOfStudents)
-    {
-        ArrayList<Student> listOfStudentsWithSameFaculty = new ArrayList<>();
-        Iterator<Student> iter = listOfStudentsWithSameFaculty.iterator();
-        while(iter.hasNext())
-        {
-            Student temp = iter.next();
-            if(temp.getFaculty() == faculty) listOfStudentsWithSameFaculty.add(temp);
-        }
-        return listOfStudentsWithSameFaculty;
-    }
-    static ArrayList<Student> listOfStudentsWhoBornAfterYear(int year, ArrayList<Student> listOfStudents)
-    {
-        ArrayList<Student> listOfStudentsWhoBornAfterYear = new ArrayList<>();
-        Iterator<Student> iter = listOfStudentsWhoBornAfterYear.iterator();
-        while(iter.hasNext())
-        {
-            Student temp = iter.next();
-            if(temp.getBirthday().getYear() > year) listOfStudentsWhoBornAfterYear.add(temp);
-        }
-        return listOfStudentsWhoBornAfterYear;
-    }
-    static void showListOfStudents(ArrayList<Student> listOfStudents)
+    static void showListOfStudents(List<Student> listOfStudents)
     {
         System.out.println();
         for (Iterator<Student> iterator = listOfStudents.iterator(); iterator.hasNext(); )
@@ -82,32 +60,52 @@ public class Main
             System.out.println(student.toString());
         }
     }
-    static public Student addNewStudent()
+    static public Student newStudent()
     {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введіть id, Прізвище, Ім’я, По батькові, Дата народження, " +
                 "Адреса, Телефон, Факультет, Курс, Группу студента");
-        return new Student(scanner.nextInt(), scanner.next(), scanner.next(),
-                scanner.next(), scanner.next()," ", " ", scanner.next(),
-                scanner.nextInt(), scanner.next());
+        int id = scanner.nextInt();
+        String surname = scanner.next();
+        String name = scanner.next();
+        String fatherName = scanner.next();
+        String birthday = scanner.next();
+        String faculty = scanner.next();
+        int course = scanner.nextInt();
+        String group = scanner.next();
+        Student student = new Student(id, surname, name,
+                fatherName, birthday," ", " ", faculty,
+                course, group);
+        return student;
     }
     public static void main(String[] args)
     {
         ArrayList<Student> students = madeListOfStudents();
-        //Scanner scanner = new Scanner(System.in);
-        //System.out.println("Введіть факультет: ");
-        //ArrayList<Student> studentsWithSameFaculty = listOfStudentsWithSameFaculty("Engineering"/*scanner.nextLine()*/, students);
-        //showListOfStudents(studentsWithSameFaculty);
-        //System.out.println("Введіть рік: ");
-        //showListOfStudents(listOfStudentsWhoBornAfterYear(2001/*scanner.nextInt()*/, students));
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введіть факультет: ");//"Engineering"  scanner.nextLine()
+        String Faculty = scanner.nextLine();
+        List<Student> studentsWithSameFaculty = students.stream()
+                .filter(x -> Faculty.equals(x.getFaculty()))
+                .toList();
+        showListOfStudents(studentsWithSameFaculty);
+
+        System.out.print("Введіть рік: ");
+        int year = scanner.nextInt();
+        List<Student> studentsWhoBornAfterYear = students.stream()
+                        .filter(x -> x.getBirthday().getYear() > year)
+                        .toList();
+        showListOfStudents(studentsWhoBornAfterYear);
 
         students.sort(null);
         showListOfStudents(students);
+
         students.sort(Comparator.comparing(Student::getFaculty).thenComparing(Student::getBirthday));
         showListOfStudents(students);
+
         Set<String> faculties = new HashSet<>();
         for (Student student: students) faculties.add(student.getFaculty());
         System.out.println("\n" + faculties);
+
         Map<String, Integer> map = new HashMap<>();
         for (Student student : students)
         {
