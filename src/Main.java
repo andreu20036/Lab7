@@ -65,17 +65,18 @@ public class Main
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введіть id, Прізвище, Ім’я, По батькові, Дата народження, " +
                 "Адреса, Телефон, Факультет, Курс, Группу студента");
-        int id = scanner.nextInt();
-        String surname = scanner.next();
-        String name = scanner.next();
-        String fatherName = scanner.next();
-        String birthday = scanner.next();
-        String faculty = scanner.next();
-        int course = scanner.nextInt();
-        String group = scanner.next();
-        Student student = new Student(id, surname, name,
-                fatherName, birthday," ", " ", faculty,
-                course, group);
+        int id, course;
+        String surname, name, fatherName, birthday, faculty, group;
+        id = scanner.nextInt();
+        surname = scanner.next();
+        name = scanner.next();
+        fatherName = scanner.next();
+        birthday = scanner.next();
+        faculty = scanner.next();
+        course = scanner.nextInt();
+        group = scanner.next();
+        Student student = new Student(id, surname, name, fatherName, birthday,
+                " ", " ", faculty, course, group);
         return student;
     }
     public static void main(String[] args)
@@ -119,6 +120,6 @@ public class Main
             System.out.println(entry);
         }
 
-        //students.add(addNewStudent());
+//        System.out.print(newStudent().toString());
     }
 }
