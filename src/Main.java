@@ -93,8 +93,8 @@ public class Main
         System.out.print("Введіть рік: ");
         int year = scanner.nextInt();
         List<Student> studentsWhoBornAfterYear = students.stream()
-                        .filter(x -> x.getBirthday().getYear() > year)
-                        .toList();
+                .filter(x -> x.getBirthday().getYear() > year)
+                .toList();
         showListOfStudents(studentsWhoBornAfterYear);
 
         students.sort(null);
@@ -104,7 +104,7 @@ public class Main
         showListOfStudents(students);
 
         Set<String> faculties = new HashSet<>();
-        for (Student student: students) faculties.add(student.getFaculty());
+        for (Student student : students) faculties.add(student.getFaculty());
         System.out.println("\n" + faculties);
 
         Map<String, Integer> map = new HashMap<>();
@@ -112,7 +112,7 @@ public class Main
         {
             String faculty = student.getFaculty();
             Integer count = map.get(faculty);
-            if(count == null) map.put(faculty, 1);
+            if (count == null) map.put(faculty, 1);
             else map.put(faculty, ++count);
         }
         for (Map.Entry<String, Integer> entry : map.entrySet())
@@ -120,6 +120,32 @@ public class Main
             System.out.println(entry);
         }
 
-//        System.out.print(newStudent().toString());
+        String action = "";
+        System.out.println("Щоб додати дані студента введіть \"додати\", " +
+                           "видалити дані про студента - \"видалити\", " + "\n" +
+                           "вивести список студентів - \"список\", " +
+                           "для завершення програми - \"вихід\".");
+        while (!action.equals("вихід"))
+        {
+            System.out.print("Ваш вибір: ");
+            action = scanner.nextLine();
+            if (action.equals("додати"))
+            {
+                Student student = newStudent();
+                students.add(student);
+            }
+            else if (action.equals("видалити"))
+            {
+                System.out.print("Введіть id: ");
+                int id = scanner.nextInt();
+                for (Iterator<Student> iterator = students.iterator(); iterator.hasNext(); )
+                {
+                    int Id =  iterator.next().getId();
+                    if (id == Id) iterator.remove();
+                }
+            }
+            else if (action.equals("список")) showListOfStudents(students);
+        }
+        System.out.println("Гарного Вам дня!");
     }
 }
