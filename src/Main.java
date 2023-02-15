@@ -145,6 +145,7 @@ public class Main
                 }
             }
             else if (action.equals("список")) showListOfStudents(students);
+            else System.out.println("Повторіть спробу!");
         }
         System.out.println("Гарного Вам дня!");
     }
