@@ -105,28 +105,7 @@ public class Student implements Comparable<Student>
                 + phoneNumber + " " + faculty + " " + course + " " + group;
 
     }
-    public void saveInFile(File file)
-    {
-        try
-        {
-            FileWriter writer = new FileWriter(file, true);
-            BufferedWriter bufferWriter = new BufferedWriter(writer);
-            bufferWriter.write(toString() + "\r\n");
-            bufferWriter.close();
-        }
-        catch(FileNotFoundException e)
-        {
-            System.out.print("File not found");
-        }
-        catch(IOException e)
-        {
-            System.out.println(e);
-        }
-        catch(Exception e)
-        {
-            System.out.print("Error");
-        }
-    }
+
     @Override
     public boolean equals(Object o)
     {
@@ -142,16 +121,8 @@ public class Student implements Comparable<Student>
     }
     Student()
     {
-        this.id = 0;
-        this.surname = "";
-        this.name = "";
-        this.fatherName = "";
-        this.birthday = LocalDate.parse("2000-01-01");
-        this.address = "";
-        this.phoneNumber = "";
-        this.faculty = "";
-        this.course = 0;
-        this.group = "";
+        this(0, "", "", "", "2000-01-01",
+                "", "", "", 0, "");
     }
     Student(int id, String surname, String name, String fatherName, String birthday,
             String address, String phoneNumber, String faculty, int course, String group)

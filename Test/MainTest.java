@@ -8,7 +8,6 @@ class MainTest
     @Test
     void addNewStudent()
     {
-        Student student = Main.newStudent();
-        System.out.print(student.toString());
+
     }
 }
